@@ -1,25 +1,20 @@
 import os
 from datetime import datetime
+
 from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text, create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# Configure Database URL
-# Vercel provides POSTGRES_URL. Locally we use SQLite.
-DATABASE_URL = os.getenv("POSTGRES_URL", "sqlite:///./mozhisense.db")
+# Original Strong Backend uses SQLite for local simplicity on Render/VPS
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./mozhisense.db")
 
-# Fix for Vercel Postgres URL protocol and driver (using pg8000 for zero-binary compatibility)
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+pg8000://", 1)
-elif DATABASE_URL.startswith("postgresql://"):
-    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://", 1)
-
-# SQLite technically needs different connect_args than Postgres
+# Detect if we should use SQLite or Postgres (for Render/Railway DBs)
 is_sqlite = DATABASE_URL.startswith("sqlite")
-engine_args = {"check_same_thread": False} if is_sqlite else {}
+connect_args = {"check_same_thread": False} if is_sqlite else {}
 
-engine = create_engine(DATABASE_URL, connect_args=engine_args)
+engine = create_engine(DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+
 
 class ChallengeCache(Base):
     __tablename__ = "challenge_cache"
@@ -40,6 +35,7 @@ class ChallengeCache(Base):
     validated = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class UserSession(Base):
     __tablename__ = "user_sessions"
 
@@ -50,6 +46,7 @@ class UserSession(Base):
     correct = Column(Integer, default=0)
     xp_earned = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
+
 
 class UserAttempt(Base):
     __tablename__ = "user_attempts"
@@ -65,5 +62,5 @@ class UserAttempt(Base):
     response_time_ms = Column(Integer)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-# Create tables if they don't exist
+
 Base.metadata.create_all(bind=engine)

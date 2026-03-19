@@ -1,4 +1,5 @@
-const BASE_URL = '/api'
+// Use the provided VITE_API_URL or fallback to local dev proxy
+const BASE_URL = import.meta.env.VITE_API_URL || '/api'
 
 export const getWords = async () => {
   const response = await fetch(`${BASE_URL}/words`)
