@@ -19,14 +19,16 @@ export default function BottomNav({ active = 'home', onChange }) {
               flexDirection: 'column',
               alignItems: 'center',
               gap: '3px',
-              padding: '8px 16px',
-              borderRadius: '14px',
-              background: isActive ? 'rgba(0,212,184,0.12)' : 'transparent',
+              padding: '10px 12px',
+              borderRadius: '30px',
+              background: isActive ? 'rgba(0,212,184,0.15)' : 'transparent',
               border: 'none',
               cursor: 'pointer',
-              transition: 'all 0.15s ease',
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
               position: 'relative',
               zIndex: 60,
+              flex: 1,
+              maxWidth: '80px'
             }}
           >
             <span style={{ fontSize: '20px', lineHeight: 1 }}>{tab.icon}</span>

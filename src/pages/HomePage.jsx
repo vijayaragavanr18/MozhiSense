@@ -158,27 +158,39 @@ export default function HomePage({ onNavigate, selectedWord }) {
         </div>
       </div>
 
-      {/* Section B — XP Level Bar */}
-      <div style={{
-        margin: '0 16px 14px', background: 'var(--surface2)', border: '1px solid var(--border)',
-        borderRadius: '18px', padding: '14px 18px',
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-          <span style={{ fontSize: '12px', fontFamily: 'Nunito', fontWeight: 800, color: 'var(--text2)' }}>
-            Level {level.level} — {level.title}
-          </span>
-          <span style={{ fontSize: '12px', fontFamily: 'Nunito', fontWeight: 800, color: 'var(--gold)' }}>
-            {xp} / {level.max === Infinity ? '∞' : level.max} XP
-          </span>
-        </div>
-        <div style={{ height: '8px', background: 'var(--surface)', borderRadius: '4px', overflow: 'hidden', marginBottom: '6px' }}>
+      {/* Section B — Stats Overview */}
+      <div style={{ padding: '0 16px 24px' }}>
+        <div style={{
+          background: 'var(--surface2)', borderRadius: '24px', padding: '24px',
+          border: '1px solid var(--border2)', position: 'relative', overflow: 'hidden'
+        }}>
+          {/* 3D Mascot Integration */}
           <div style={{
-            height: '100%', width: `${xpProgress}%`, borderRadius: '4px',
-            background: 'linear-gradient(90deg, var(--teal), #00A693)', transition: 'width 0.4s ease',
-          }} />
-        </div>
-        <div style={{ fontSize: '11px', fontFamily: 'Nunito', fontWeight: 600, color: 'var(--text3)' }}>
-          {xpToNext} XP to Level {nextLevel}
+            position: 'absolute', right: '-10px', top: '10px',
+            width: '120px', height: '120px', opacity: 0.9
+          }}>
+            <img 
+              src="/src/assets/mascot_3d.png" 
+              alt="Mascot" 
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          </div>
+
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, color: 'var(--teal)', letterSpacing: '0.1em', marginBottom: '4px' }}>
+              LEVEL 1 — LEARNER
+            </div>
+            <div style={{ fontFamily: '"Baloo 2"', fontSize: '28px', fontWeight: 800, color: 'var(--text)', marginBottom: '12px' }}>
+              {xp} <span style={{ fontSize: '14px', color: 'var(--text2)' }}>/ 500 XP</span>
+            </div>
+            
+            <div style={{ width: '65%', height: '10px', background: 'var(--bg)', borderRadius: '5px', overflow: 'hidden', marginBottom: '8px' }}>
+              <div style={{ width: `${(xp / 500) * 100}%`, height: '100%', background: 'linear-gradient(90deg, var(--teal), #00A38D)', borderRadius: '5px' }} />
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text3)', fontWeight: 600 }}>
+              {500 - xp} XP to Level 2
+            </div>
+          </div>
         </div>
       </div>
 

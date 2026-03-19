@@ -457,12 +457,16 @@ export default function ChallengePage({ word, selectedSenseId, onNavigate }) {
             display: 'flex', gap: '12px',
           }}>
             <div style={{
-              width: '38px', height: '38px', flexShrink: 0,
-              background: isCorrect ? 'rgba(34,197,94,0.2)' : 'rgba(232,82,58,0.2)',
+              width: '48px', height: '48px', flexShrink: 0,
+              background: isCorrect ? 'rgba(46,204,113,0.2)' : 'rgba(255,94,94,0.2)',
               borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '20px',
+              overflow: 'hidden'
             }}>
-              {isCorrect ? '✅' : '❌'}
+              <img 
+                src="/src/assets/mascot_3d.png" 
+                alt="Mascot"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.2)' }}
+              />
             </div>
             <div>
               <div style={{ fontSize: '13px', fontFamily: 'Nunito', fontWeight: 800, color: 'var(--text)', marginBottom: '4px' }}>
