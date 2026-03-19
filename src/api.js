@@ -1,5 +1,5 @@
-// Use the provided VITE_API_URL or fallback to local dev proxy
-const BASE_URL = import.meta.env.VITE_API_URL || '/api'
+// Use /api for local dev proxy (configured in vite.config.js)
+const BASE_URL = '/api'
 
 export const getWords = async () => {
   const response = await fetch(`${BASE_URL}/words`)
@@ -7,34 +7,31 @@ export const getWords = async () => {
   return response.json()
 }
 
+// Backend expects: GET /challenges/{word_tamil}?sense_id=...
 export const getChallenges = async (word, senseId = null) => {
-  let url = `${BASE_URL}/challenges?word=${encodeURIComponent(word)}`
-  if (senseId) url += `&sense_id=${encodeURIComponent(senseId)}`
+  let url = `${BASE_URL}/challenges/${encodeURIComponent(word)}`
+  if (senseId) url += `?sense_id=${encodeURIComponent(senseId)}`
   const response = await fetch(url)
   if (!response.ok) throw new Error('Failed to fetch challenges')
   return response.json()
 }
 
+// Backend expects: POST /sessions/start?word_tamil=...
 export const startSession = async (word, senseId = null) => {
-  const response = await fetch(`${BASE_URL}/sessions/start`, {
+  let url = `${BASE_URL}/sessions/start?word_tamil=${encodeURIComponent(word)}`
+  const response = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ word, sense_id: senseId })
+    headers: { 'Content-Type': 'application/json' }
   })
   if (!response.ok) throw new Error('Failed to start session')
   return response.json()
 }
 
-export const recordAttempt = async (sessionId, challengeId, selectedAnswer, correct, responseTimeMs) => {
-  const response = await fetch(`${BASE_URL}/sessions/${sessionId}/attempt`, {
+export const recordAttempt = async (payload) => {
+  const response = await fetch(`${BASE_URL}/sessions/attempt`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      challenge_id: challengeId,
-      selected_answer: selectedAnswer,
-      correct,
-      response_time_ms: responseTimeMs
-    })
+    body: JSON.stringify(payload)
   })
   if (!response.ok) throw new Error('Failed to record attempt')
   return response.json()
@@ -46,8 +43,9 @@ export const getSessionSummary = async (sessionId) => {
   return response.json()
 }
 
+// Backend expects: GET /graph/{word_tamil}
 export const getGraphData = async (word) => {
-  const response = await fetch(`${BASE_URL}/graph?word=${encodeURIComponent(word)}`)
+  const response = await fetch(`${BASE_URL}/graph/${encodeURIComponent(word)}`)
   if (!response.ok) throw new Error('Failed to fetch graph data')
   return response.json()
 }

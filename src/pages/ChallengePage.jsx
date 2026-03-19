@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core'
-import { getChallenges, getSessionSummary, preGenerateAllChallenges, recordAttempt, startSession } from '../api'
+import { getChallenges, getSessionSummary, recordAttempt, startSession } from '../api'
 
 function DragTile({ option, index, answered, correctAnswer, filledAnswer, isCorrectAnswer }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -127,7 +127,7 @@ export default function ChallengePage({ word, selectedSenseId, onNavigate }) {
         let sid = null
         try {
           const sessionRes = await startSession(word.tamil)
-          sid = sessionRes.data.session_id
+          sid = sessionRes.session_id
           setSessionId(sid)
         } catch {
           // Graceful degradation — continue without session
@@ -135,23 +135,21 @@ export default function ChallengePage({ word, selectedSenseId, onNavigate }) {
 
         let challengeRes
         try {
-          challengeRes = await getChallenges(word.tamil, { sense_id: selectedSenseId, weak_first: false })
+          // Don't filter by senseId to get a 5-question mix for the word
+          challengeRes = await getChallenges(word.tamil)
         } catch (err) {
-          if (err?.response?.status === 503) {
-            await preGenerateAllChallenges()
-            challengeRes = await getChallenges(word.tamil, { sense_id: selectedSenseId, weak_first: false })
-          } else {
-            throw err
-          }
+          challengeRes = await getChallenges(word.tamil)
         }
 
-        const list = challengeRes.data.challenges || []
+        const list = challengeRes.challenges || []
         if (list.length === 0) {
           setError('No challenges available for this word yet.')
           return
         }
 
-        setChallenges(list)
+        // Backend already limits to 5, but we ensure it here for UI safety
+        const finalChallenges = list.slice(0, 5)
+        setChallenges(finalChallenges)
         setCurrentIndex(0)
         questionStartRef.current = Date.now()
       } catch {
@@ -216,7 +214,7 @@ export default function ChallengePage({ word, selectedSenseId, onNavigate }) {
     if (sessionId) {
       try {
         const res = await getSessionSummary(sessionId)
-        const summary = res.data
+        const summary = res // In current api.js, res is already response.json()
 
         // Update localStorage
         const currentXp = parseInt(localStorage.getItem('mozhisense_xp') || '0', 10)

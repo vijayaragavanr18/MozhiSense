@@ -49,53 +49,50 @@ def generate_with_ollama(word_tamil: str, word_roman: str, sense: dict, variants
         [f"  - {variant['form']} ({variant['label']}: {variant['description']})" for variant in variants[:6]]
     )
 
-    prompt = f"""You are a Tamil language expert creating one fill-in-the-blank game challenge.
+    prompt = f"""You are a Tamil language expert. Create a fill-in-the-blank JSON challenge.
 
+### EXAMPLE INPUT:
+Word: படி (padi)
+Sense: verb: to study
+Variants: படித்தேன், படிக்கிறேன், படிப்பேன்
+
+### EXAMPLE OUTPUT:
+{{
+  "sentence_tamil": "நான் நேற்று இரவு நன்றாக ___.",
+  "sentence_english": "I studied well last night.",
+  "correct_answer": "படித்தேன்",
+  "distractor_1": "படிக்கிறேன்",
+  "distractor_2": "படிப்பேன்",
+  "distractor_3": "படிக்கு",
+  "morphological_note": "The sentence is in past tense ('last night'), so 'படித்தேன்' is the correct past tense form."
+}}
+
+### YOUR TURN:
 WORD: {word_tamil} ({word_roman})
-SENSE TO TEST: {sense['label']}
+SENSE: {sense['label']}
 GLOSS: {sense['gloss']}
-EXAMPLE CONTEXT: {sense['example_context']}
+CONTEXT: {sense['example_context']}
 
-AVAILABLE WORD FORMS (morphological variants of {word_tamil}):
+VARIANTS:
 {variants_text}
 
-YOUR TASK:
-1. Write ONE Tamil sentence where {word_tamil} is used in the sense: \"{sense['label']}\"
-2. Remove the target word from the sentence and replace it with ___
-3. Choose the CORRECT FORM from the variants list that fits the blank
-4. Generate 3 DISTRACTOR options that:
-   - Are grammatically valid Tamil
-   - Come from the variants list OR are forms of {word_tamil} with wrong case/tense
-   - Are SEMANTICALLY WRONG in this specific sentence context
-   - Look plausible enough to fool a learner
-5. Write the English translation of the full sentence (with the word filled in)
-6. Write a SHORT morphological explanation (1-2 sentences) explaining why the correct answer is right
-
 RULES:
-- The sentence must be natural, colloquial Tamil
-- The blank MUST appear mid-sentence (not at the start or end)
-- All 4 options (1 correct + 3 distractors) must be different from each other
-- The explanation must mention the grammatical concept
+1. Sentence must be natural Tamil.
+2. Put ___ in the middle of the sentence.
+3. correct_answer MUST be from the VARIANTS list.
+4. Distractors must be other variants or wrong forms.
+5. morphological_note explains WHY the answer fits.
 
-Respond ONLY with valid JSON in this exact format (no markdown, no extra text):
-{{
-  \"sentence_tamil\": \"the Tamil sentence with ___ as the blank\",
-  \"sentence_english\": \"full English sentence with the answer filled in\",
-  \"correct_answer\": \"the correct Tamil form\",
-  \"distractor_1\": \"wrong option 1\",
-  \"distractor_2\": \"wrong option 2\",
-  \"distractor_3\": \"wrong option 3\",
-  \"morphological_note\": \"short explanation of why the correct answer is right\"
-}}"""
+Respond ONLY with valid JSON (no markdown):"""
 
     payload = {
         'model': ollama_model,
         'prompt': prompt,
         'stream': False,
         'options': {
-            'temperature': 0.3,
+            'temperature': 0.5,
             'top_p': 0.9,
-            'num_predict': 420,
+            'num_predict': 400,
         },
     }
 

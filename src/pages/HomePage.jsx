@@ -127,7 +127,7 @@ export default function HomePage({ onNavigate, selectedWord }) {
     setLoading(true)
     setError('')
     getWords()
-      .then(res => setWords(res.data.words || []))
+      .then(res => setWords(res.words || []))
       .catch(() => setError("Couldn't load words. Is the backend running?"))
       .finally(() => setLoading(false))
   }, [retryCount])

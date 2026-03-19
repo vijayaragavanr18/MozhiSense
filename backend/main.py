@@ -68,36 +68,43 @@ def _generate_and_cache_word(db: Session, word_tamil: str, force: bool = False):
     generated = 0
     validated = 0
 
-    for sense in word_data['senses']:
-        variants = get_morphological_variants(word_tamil, sense['pos'])
+    # Ensure at least 5 validated challenges per word
+    max_loops = 3
+    current_loop = 0
+    while validated < 5 and current_loop < max_loops:
+        current_loop += 1
+        for sense in word_data['senses']:
+            if validated >= 5:
+                break
+            
+            variants = get_morphological_variants(word_tamil, sense['pos'])
+            try:
+                challenge_data = generate_challenge(word_tamil, word_data['roman'], sense, variants)
+            except Exception:
+                continue
 
-        try:
-            challenge_data = generate_challenge(word_tamil, word_data['roman'], sense, variants)
-        except Exception:
-            continue
+            passed, _ = validate_challenge(challenge_data, sense['pos'])
 
-        passed, _ = validate_challenge(challenge_data, sense['pos'])
-
-        record = ChallengeCache(
-            word_tamil=word_tamil,
-            word_roman=word_data['roman'],
-            sense_id=sense['id'],
-            sense_label=sense['label'],
-            pos=sense['pos'],
-            sentence_tamil=challenge_data['sentence_tamil'],
-            sentence_english=challenge_data['sentence_english'],
-            correct_answer=challenge_data['correct_answer'],
-            distractor_1=challenge_data['distractor_1'],
-            distractor_2=challenge_data['distractor_2'],
-            distractor_3=challenge_data['distractor_3'],
-            morphological_note=challenge_data['morphological_note'],
-            validated=passed,
-        )
-        db.add(record)
-        db.commit()
-        generated += 1
-        if passed:
-            validated += 1
+            record = ChallengeCache(
+                word_tamil=word_tamil,
+                word_roman=word_data['roman'],
+                sense_id=sense['id'],
+                sense_label=sense['label'],
+                pos=sense['pos'],
+                sentence_tamil=challenge_data['sentence_tamil'],
+                sentence_english=challenge_data['sentence_english'],
+                correct_answer=challenge_data['correct_answer'],
+                distractor_1=challenge_data['distractor_1'],
+                distractor_2=challenge_data['distractor_2'],
+                distractor_3=challenge_data['distractor_3'],
+                morphological_note=challenge_data['morphological_note'],
+                validated=passed,
+            )
+            db.add(record)
+            db.commit()
+            generated += 1
+            if passed:
+                validated += 1
 
     return {
         'word_tamil': word_tamil,
@@ -168,10 +175,17 @@ def get_challenges(
     if weak_first:
         counts = _sense_error_counts(db, word_tamil)
         cached.sort(key=lambda item: counts[item.sense_label]['wrong'], reverse=True)
+    else:
+        # Default: Shuffle for variety
+        random.shuffle(cached)
+
+    # Limit to exactly 5 challenges as requested
+    selected = cached[:5]
 
     return {
-        'challenges': [row_to_dict(challenge) for challenge in cached],
+        'challenges': [row_to_dict(challenge) for challenge in selected],
         'requested_sense_id': sense_id,
+        'count': len(selected)
     }
 
 
@@ -185,7 +199,7 @@ def pregenerate_all(force: bool = False, db: Session = Depends(get_db)):
     return {'ok': True, 'results': results}
 
 
-@app.post('/admin/pregenerate/{word_tamil}')
+@app.post('/admin/pregenerate/word/{word_tamil}')
 def pregenerate_word(word_tamil: str, force: bool = False, db: Session = Depends(get_db)):
     stats = _generate_and_cache_word(db, word_tamil, force=force)
     return {'ok': True, 'stats': stats}

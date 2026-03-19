@@ -14,14 +14,9 @@ export default function SemanticGraphPage({ word, onNavigate }) {
     setLoading(true)
     setError('')
     getGraphData(word.tamil)
-      .then(res => setGraphData(res.data))
+      .then(res => setGraphData(res))
       .catch(err => {
-        const detail = err?.response?.data?.detail
-        if (typeof detail === 'string' && detail.toLowerCase().includes('not found')) {
-          setError(`'${word.tamil}' is not available in the current dataset.`)
-        } else {
-          setError('Failed to load graph data.')
-        }
+        setError('Failed to load graph data.')
       })
       .finally(() => setLoading(false))
   }, [word?.tamil])
@@ -149,7 +144,7 @@ export default function SemanticGraphPage({ word, onNavigate }) {
             <span style={{ fontSize: '13px', fontFamily: 'Nunito', fontWeight: 600, color: 'var(--text2)' }}>{error}</span>
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button onClick={() => { setError(''); setLoading(true); getGraphData(word.tamil).then(r => setGraphData(r.data)).catch(() => setError('Failed.')).finally(() => setLoading(false)) }}
+            <button onClick={() => { setError(''); setLoading(true); getGraphData(word.tamil).then(r => setGraphData(r)).catch(() => setError('Failed.')).finally(() => setLoading(false)) }}
               style={{ flex: 1, background: 'linear-gradient(135deg, #00897B, #00D4B8)', border: 'none', borderRadius: '12px', padding: '10px', color: '#fff', fontFamily: 'Nunito', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>
               ↻ Retry
             </button>

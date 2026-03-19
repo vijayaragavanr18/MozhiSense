@@ -25,6 +25,8 @@ export default function BottomNav({ active = 'home', onChange }) {
               border: 'none',
               cursor: 'pointer',
               transition: 'all 0.15s ease',
+              position: 'relative',
+              zIndex: 60,
             }}
           >
             <span style={{ fontSize: '20px', lineHeight: 1 }}>{tab.icon}</span>
