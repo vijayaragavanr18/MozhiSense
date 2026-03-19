@@ -1,0 +1,7 @@
+# Optional local/offline NLP dependencies
+# Install only when using the local pipeline adapters.
+# Example: /home/vijayaragavan/Projects/MozhiSense/.venv/bin/python -m pip install -r requirements-optional.txt
+
+inltk>=0.9
+indic-nlp-library>=0.92
+llama-cpp-python>=0.3

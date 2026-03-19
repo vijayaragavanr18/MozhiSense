@@ -1,0 +1,118 @@
+{
+  "verb_rules": [
+    {
+      "label": "past_3rd_masc_sg",
+      "description": "He did (past)",
+      "suffix": "த்தான்",
+      "example_root": "படி",
+      "example_out": "படித்தான்"
+    },
+    {
+      "label": "past_3rd_fem_sg",
+      "description": "She did (past)",
+      "suffix": "த்தாள்",
+      "example_root": "படி",
+      "example_out": "படித்தாள்"
+    },
+    {
+      "label": "past_3rd_plural",
+      "description": "They did (past)",
+      "suffix": "த்தார்கள்",
+      "example_root": "படி",
+      "example_out": "படித்தார்கள்"
+    },
+    {
+      "label": "present_3rd_masc",
+      "description": "He does (present)",
+      "suffix": "க்கிறான்",
+      "example_root": "படி",
+      "example_out": "படிக்கிறான்"
+    },
+    {
+      "label": "present_3rd_fem",
+      "description": "She does (present)",
+      "suffix": "க்கிறாள்",
+      "example_root": "படி",
+      "example_out": "படிக்கிறாள்"
+    },
+    {
+      "label": "present_3rd_plural",
+      "description": "They do (present)",
+      "suffix": "க்கிறார்கள்",
+      "example_root": "படி",
+      "example_out": "படிக்கிறார்கள்"
+    },
+    {
+      "label": "future_3rd_plural",
+      "description": "They will do (future)",
+      "suffix": "ப்பார்கள்",
+      "example_root": "படி",
+      "example_out": "படிப்பார்கள்"
+    },
+    {
+      "label": "infinitive",
+      "description": "To do (infinitive)",
+      "suffix": "க்க",
+      "example_root": "படி",
+      "example_out": "படிக்க"
+    },
+    {
+      "label": "verbal_noun",
+      "description": "The act of doing",
+      "suffix": "த்தல்",
+      "example_root": "படி",
+      "example_out": "படித்தல்"
+    }
+  ],
+  "noun_case_rules": [
+    {
+      "label": "nominative",
+      "description": "Subject form",
+      "suffix": "",
+      "example_root": "ஆறு",
+      "example_out": "ஆறு"
+    },
+    {
+      "label": "accusative",
+      "description": "Object form (-ஐ)",
+      "suffix": "ஐ",
+      "example_root": "ஆறு",
+      "example_out": "ஆற்றை"
+    },
+    {
+      "label": "locative",
+      "description": "In/at form (-இல்)",
+      "suffix": "இல்",
+      "example_root": "ஆறு",
+      "example_out": "ஆற்றில்"
+    },
+    {
+      "label": "dative",
+      "description": "To/for form (-உக்கு)",
+      "suffix": "உக்கு",
+      "example_root": "ஆறு",
+      "example_out": "ஆற்றுக்கு"
+    },
+    {
+      "label": "ablative",
+      "description": "From form (-இலிருந்து)",
+      "suffix": "இலிருந்து",
+      "example_root": "ஆறு",
+      "example_out": "ஆற்றிலிருந்து"
+    },
+    {
+      "label": "genitive",
+      "description": "Of form (-இன்)",
+      "suffix": "இன்",
+      "example_root": "ஆறு",
+      "example_out": "ஆற்றின்"
+    },
+    {
+      "label": "ordinal",
+      "description": "nth form (-ஆவது)",
+      "suffix": "ஆவது",
+      "example_root": "ஆறு",
+      "example_out": "ஆறாவது"
+    }
+  ]
+}

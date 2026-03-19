@@ -1,0 +1,85 @@
+{
+  "name": "MozhiSense - Gamified Tamil Learning",
+  "short_name": "MozhiSense",
+  "description": "Learn Tamil words through gamified challenges, semantic visualization, and performance tracking",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#00D4B8",
+  "background_color": "#0D1B2A",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Play Challenge",
+      "short_name": "Play",
+      "description": "Start a new learning challenge",
+      "url": "/play",
+      "icons": [
+        {
+          "src": "/icons/96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Explore Graphs",
+      "short_name": "Explore",
+      "description": "Explore word semantic graphs",
+      "url": "/explore",
+      "icons": [
+        {
+          "src": "/icons/96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/challenge-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/home-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "prefer_related_applications": false
+}

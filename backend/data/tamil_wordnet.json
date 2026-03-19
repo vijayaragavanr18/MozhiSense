@@ -1,0 +1,105 @@
+{
+  "words": [
+    {
+      "tamil": "ஆறு",
+      "roman": "aaru",
+      "senses": [
+        {
+          "id": "aaru_n_river",
+          "pos": "noun",
+          "label": "noun: river",
+          "gloss": "a large natural stream of water",
+          "example_context": "fishing in a river"
+        },
+        {
+          "id": "aaru_n_six",
+          "pos": "noun",
+          "label": "noun: six",
+          "gloss": "the number 6",
+          "example_context": "counting six objects"
+        },
+        {
+          "id": "aaru_v_comfort",
+          "pos": "verb",
+          "label": "verb: to comfort / cool down",
+          "gloss": "to soothe, calm, or comfort someone",
+          "example_context": "comforting a crying child"
+        }
+      ]
+    },
+    {
+      "tamil": "படி",
+      "roman": "padi",
+      "senses": [
+        {
+          "id": "padi_v_read",
+          "pos": "verb",
+          "label": "verb: to read / study",
+          "gloss": "to read or study something",
+          "example_context": "studying for an exam"
+        },
+        {
+          "id": "padi_n_stair",
+          "pos": "noun",
+          "label": "noun: step / stair",
+          "gloss": "a step or staircase",
+          "example_context": "climbing the temple steps"
+        },
+        {
+          "id": "padi_n_measure",
+          "pos": "noun",
+          "label": "noun: a unit of measure",
+          "gloss": "a traditional unit for measuring grain",
+          "example_context": "measuring grain quantity"
+        }
+      ]
+    },
+    {
+      "tamil": "கல்",
+      "roman": "kal",
+      "senses": [
+        {
+          "id": "kal_n_stone",
+          "pos": "noun",
+          "label": "noun: stone / rock",
+          "gloss": "a hard mineral rock or stone",
+          "example_context": "carving a stone sculpture"
+        },
+        {
+          "id": "kal_v_learn",
+          "pos": "verb",
+          "label": "verb: to learn",
+          "gloss": "to learn or acquire knowledge",
+          "example_context": "learning good habits"
+        }
+      ]
+    },
+    {
+      "tamil": "திங்கள்",
+      "roman": "thingal",
+      "senses": [
+        {
+          "id": "thingal_n_monday",
+          "pos": "noun",
+          "label": "noun: Monday",
+          "gloss": "the second day of the week",
+          "example_context": "a day of the week"
+        },
+        {
+          "id": "thingal_n_moon",
+          "pos": "noun",
+          "label": "noun: the moon",
+          "gloss": "Earth's natural satellite visible at night",
+          "example_context": "the moon shining at night"
+        },
+        {
+          "id": "thingal_n_month",
+          "pos": "noun",
+          "label": "noun: month",
+          "gloss": "a period of approximately 30 days",
+          "example_context": "a period of time"
+        }
+      ]
+    }
+  ]
+}
