@@ -1,21 +1,52 @@
-import axios from 'axios'
+const BASE_URL = '/api'
 
-const BASE = 'http://localhost:8000'
-const api = axios.create({ baseURL: BASE })
-
-export const getWords = () => api.get('/words')
-export const getWordSenses = (wordTamil) => api.get(`/words/${encodeURIComponent(wordTamil)}/senses`)
-export const getChallenges = (wordTamil, options = {}) => {
-	const params = new URLSearchParams()
-	if (options.sense_id) params.set('sense_id', options.sense_id)
-	if (options.weak_first) params.set('weak_first', 'true')
-
-	const query = params.toString()
-	const path = `/challenges/${encodeURIComponent(wordTamil)}${query ? `?${query}` : ''}`
-	return api.get(path)
+export const getWords = async () => {
+  const response = await fetch(`${BASE_URL}/words`)
+  if (!response.ok) throw new Error('Failed to fetch words')
+  return response.json()
 }
-export const startSession = (wordTamil) => api.post(`/sessions/start?word_tamil=${encodeURIComponent(wordTamil)}`)
-export const recordAttempt = (payload) => api.post('/sessions/attempt', payload)
-export const getSessionSummary = (sessionId) => api.get(`/sessions/${sessionId}/summary`)
-export const getGraphData = (wordTamil) => api.get(`/graph/${encodeURIComponent(wordTamil)}`)
-export const preGenerateAllChallenges = () => api.post('/admin/pregenerate/all')
+
+export const getChallenges = async (word, senseId = null) => {
+  let url = `${BASE_URL}/challenges?word=${encodeURIComponent(word)}`
+  if (senseId) url += `&sense_id=${encodeURIComponent(senseId)}`
+  const response = await fetch(url)
+  if (!response.ok) throw new Error('Failed to fetch challenges')
+  return response.json()
+}
+
+export const startSession = async (word, senseId = null) => {
+  const response = await fetch(`${BASE_URL}/sessions/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ word, sense_id: senseId })
+  })
+  if (!response.ok) throw new Error('Failed to start session')
+  return response.json()
+}
+
+export const recordAttempt = async (sessionId, challengeId, selectedAnswer, correct, responseTimeMs) => {
+  const response = await fetch(`${BASE_URL}/sessions/${sessionId}/attempt`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      challenge_id: challengeId,
+      selected_answer: selectedAnswer,
+      correct,
+      response_time_ms: responseTimeMs
+    })
+  })
+  if (!response.ok) throw new Error('Failed to record attempt')
+  return response.json()
+}
+
+export const getSessionSummary = async (sessionId) => {
+  const response = await fetch(`${BASE_URL}/sessions/${sessionId}/summary`)
+  if (!response.ok) throw new Error('Failed to get session summary')
+  return response.json()
+}
+
+export const getGraphData = async (word) => {
+  const response = await fetch(`${BASE_URL}/graph?word=${encodeURIComponent(word)}`)
+  if (!response.ok) throw new Error('Failed to fetch graph data')
+  return response.json()
+}
