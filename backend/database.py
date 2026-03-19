@@ -7,9 +7,11 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 # Vercel provides POSTGRES_URL. Locally we use SQLite.
 DATABASE_URL = os.getenv("POSTGRES_URL", "sqlite:///./mozhisense.db")
 
-# Fix for Vercel Postgres URL protocol if needed
+# Fix for Vercel Postgres URL protocol and driver (using pg8000 for zero-binary compatibility)
 if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+pg8000://", 1)
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://", 1)
 
 # SQLite technically needs different connect_args than Postgres
 is_sqlite = DATABASE_URL.startswith("sqlite")
